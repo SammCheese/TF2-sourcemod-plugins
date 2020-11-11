@@ -215,22 +215,3 @@ int PlayerCounter()
     return PCR;
 }
 //comment for no damagescaling <
-
-
-//comment for no damagescaling
-int BossDamageDivider(int playerCount)
-{
-    for (int d = 1; d <= MaxClients; d++)
-    {
-        if (IsValidClient(d))
-        {
-            if (FF2_GetBossIndex(d) != -1)
-            {
-                return FF2_GetBossMaxHealth(d)/playerCount/10;
-            }
-        }
-    }
-    
-    return 0;
-} 
-//comment for no damagescaling <
