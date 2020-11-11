@@ -26,25 +26,32 @@ public void OnPluginStart()
     RegAdminCmd("sm_kamikaze", Command_Kamikaze, ADMFLAG_CUSTOM1); //basically Everyone caber Demo
     PrintToServer("Plugin loaded Successfully!");
     HookEvent("teamplay_round_win", onRoundEnd);
-    for(int client = 1; client <= MaxClients; client++) //comment for no damagescaling
+
+     //comment for no damagescaling
+    for(int client = 1; client <= MaxClients; client++)
     {
         if(IsValidClient(client))
         {
             SDKHook(client, SDKHook_OnTakeDamageAlive, OnTakeDamageAlive);
         }
-    } //comment for no damagescaling <
+    } 
+    //comment for no damagescaling <
 }
 
-public void OnClientPutInServer(int client) //comment for no damagescaling
+//comment for no damagescaling
+public void OnClientPutInServer(int client)
 {
     if(IsValidClient(client))
         SDKHook(client, SDKHook_OnTakeDamageAlive, OnTakeDamageAlive);
         
     return;
-} //comment for no damagescaling <
+} 
+//comment for no damagescaling <
 
+
+//comment for no damagescaling
 public Action OnTakeDamageAlive(int client, int &attacker, int &inflictor, float &damage, int &damagetype, int &weapon, float damageForce[3], float damagePosition[3], int damagecustom)
-{ //comment for no damagescaling 
+{
     if(!FF2_IsFF2Enabled()) //checks if FF2 Is Enabled
         return Plugin_Continue;
 
@@ -74,7 +81,8 @@ public Action OnTakeDamageAlive(int client, int &attacker, int &inflictor, float
     SDKHooks_TakeDamage(client, inflictor, attacker, damage, DMG_BLAST);
 
     return Plugin_Changed;
-} //comment for no damagescaling <
+} 
+//comment for no damagescaling <
 
 public Action Command_Kamikaze(int client, int args) // does thing aswell
 {
@@ -88,12 +96,12 @@ public Action Command_Kamikaze(int client, int args) // does thing aswell
     
     if(StrEqual(arg1, "true", false))
     {
-        //isCaberRound = true;
+        isCaberRound = true;
     	initKamikazeRound(true);
     }
     else if(StrEqual(arg1, "false", false) || args == 0)
     {
-        //isCaberRound = true;
+        isCaberRound = true;
     	initKamikazeRound(false);
     }
     else
@@ -159,7 +167,9 @@ public Action giveCaber(Handle timer)
     }
 }
 
-public void onRoundEnd(Event hEvent, const char[] sEvName, bool bDontBroadcast) //comment for no damagescaling
+
+//comment for no damagescaling
+public void onRoundEnd(Event hEvent, const char[] sEvName, bool bDontBroadcast)
 {
     isCaberRound = false;
     for(int client = 1; client <= MaxClients; client++)
@@ -169,9 +179,11 @@ public void onRoundEnd(Event hEvent, const char[] sEvName, bool bDontBroadcast) 
 			SDKUnhook(client, SDKHook_OnTakeDamageAlive, OnTakeDamageAlive); //Unhook all clients at the end of the round, that way nobody is hooked multiple times, which would cause OnTakeDamage to activate multiple times when that player is hurt
 		}
 	}
-} //comment for no damagescaling <
+}
+//comment for no damagescaling <
 
-bool IsValidClient(int client, bool replaycheck = true) //does thing
+
+bool IsValidClient(int client, bool replaycheck = true) //checks if client is valid
 {
     if (client<=0 || client>MaxClients)
     {
@@ -196,13 +208,17 @@ bool IsValidClient(int client, bool replaycheck = true) //does thing
     return true;
 }
 
-int PlayerCounter() //comment for no damagescaling
+//comment for no damagescaling
+int PlayerCounter()
 {
     int PCR = GetTeamClientCount(2);
     return PCR;
-} //comment for no damagescaling <
+}
+//comment for no damagescaling <
 
-int BossDamageDivider(int playerCount) //comment for no damagescaling
+
+//comment for no damagescaling
+int BossDamageDivider(int playerCount)
 {
     for (int d = 1; d <= MaxClients; d++)
     {
@@ -216,4 +232,5 @@ int BossDamageDivider(int playerCount) //comment for no damagescaling
     }
     
     return 0;
-} //comment for no damagescaling <
+} 
+//comment for no damagescaling <
