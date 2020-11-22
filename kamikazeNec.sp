@@ -11,13 +11,14 @@
 
 
 bool isCaberRound = false;
+Handle h_dynamicCabers;
 
 public Plugin myinfo =
 {
     name = "KamikazeFF2",
     author = "Samm-Cheese#9500",
     description = "Initiate a Kamikaze Round",
-    version = "1.3.6",
+    version = "1.3.8",
     url = "http://sourcemod.net/"
 }
 
@@ -26,6 +27,7 @@ public void OnPluginStart()
     RegAdminCmd("sm_kamikaze", Command_Kamikaze, ADMFLAG_CUSTOM1); //basically Everyone caber Demo
     PrintToServer("Plugin loaded Successfully!");
     HookEvent("teamplay_round_win", onRoundEnd);
+    h_dynamicCabers = FindConVar("ff2_dynamic_caber");
 
      //comment for no damagescaling
     for(int client = 1; client <= MaxClients; client++)
@@ -71,7 +73,7 @@ public Action OnTakeDamageAlive(int client, int &attacker, int &inflictor, float
 		return Plugin_Continue;
 				
     int index = GetEntProp(weapon, Prop_Send, "m_iItemDefinitionIndex");    //checks if caber
-	if(index != 307)
+	if (index != 307)
 	    return Plugin_Continue;
 
     int receiver_boss = FF2_GetBossIndex(client);
@@ -97,11 +99,13 @@ public Action Command_Kamikaze(int client, int args) // does thing aswell
     if(StrEqual(arg1, "true", false))
     {
         isCaberRound = true;
+        setDynamicCVar();
     	initKamikazeRound(true);
     }
     else if(StrEqual(arg1, "false", false) || args == 0)
     {
         isCaberRound = true;
+        setDynamicCVar();
     	initKamikazeRound(false);
     }
     else
@@ -172,6 +176,7 @@ public Action giveCaber(Handle timer)
 public void onRoundEnd(Event hEvent, const char[] sEvName, bool bDontBroadcast)
 {
     isCaberRound = false;
+    setDynamicCVar();
     for(int client = 1; client <= MaxClients; client++)
 	{
 		if (IsValidClient(client))
@@ -215,3 +220,21 @@ int PlayerCounter()
     return PCR;
 }
 //comment for no damagescaling <
+
+public void setDynamicCVar()
+{
+
+    if (isCaberRound == true && FindConVar("ff2_dynamic_caber") != null)
+    {
+        SetConVarBool(h_dynamicCabers, false);
+    }
+    else if (isCaberRound == false && FindConVar("ff2_dynamic_caber") != null)
+    {
+        SetConVarBool(h_dynamicCabers, true);
+    }
+    else
+    {
+        PrintToServer("ff2_dynamic_cabers not Found");
+    }
+
+}
