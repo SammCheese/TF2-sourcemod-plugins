@@ -17,7 +17,7 @@ public Plugin myinfo =
     name = "KamikazeFF2",
     author = "Samm-Cheese#9500",
     description = "Initiate a Kamikaze Round",
-    version = "1.0.0",
+    version = "1.3.6,
     url = "http://sourcemod.net/"
 }
 
