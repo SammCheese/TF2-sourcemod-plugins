@@ -11,7 +11,7 @@
 
 
 bool isCaberRound = false;
-Handle h_dynamicCabers;
+Handle cvarDynamicCabers;
 
 public Plugin myinfo =
 {
@@ -27,7 +27,7 @@ public void OnPluginStart()
     RegAdminCmd("sm_kamikaze", Command_Kamikaze, ADMFLAG_CUSTOM1); //basically Everyone caber Demo
     PrintToServer("Plugin loaded Successfully!");
     HookEvent("teamplay_round_win", onRoundEnd);
-    h_dynamicCabers = FindConVar("ff2_dynamic_caber");
+    cvarDynamicCabers = FindConVar("ff2_dynamic_caber");
 
      //comment for no damagescaling
     for(int client = 1; client <= MaxClients; client++)
@@ -224,13 +224,13 @@ int PlayerCounter()
 public void setDynamicCVar()
 {
 
-    if (isCaberRound == true && FindConVar("ff2_dynamic_caber") != null)
+    if (isCaberRound == true && cvarDynamicCabers != null)
     {
-        SetConVarBool(h_dynamicCabers, false);
+        SetConVarBool(cvarDynamicCabers, false);
     }
-    else if (isCaberRound == false && FindConVar("ff2_dynamic_caber") != null)
+    else if (isCaberRound == false && cvarDynamicCabers != null)
     {
-        SetConVarBool(h_dynamicCabers, true);
+        SetConVarBool(cvarDynamicCabers, true);
     }
     else
     {
