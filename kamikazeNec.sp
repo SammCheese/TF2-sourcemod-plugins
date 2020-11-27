@@ -18,7 +18,7 @@ public Plugin myinfo =
     name = "KamikazeFF2",
     author = "Samm-Cheese#9500",
     description = "Initiate a Kamikaze Round",
-    version = "1.3.8",
+    version = "1.3.9",
     url = "http://sourcemod.net/"
 }
 
@@ -224,17 +224,17 @@ int PlayerCounter()
 public void setDynamicCVar()
 {
 
-    if (isCaberRound == true && cvarDynamicCabers != null)
+    if (isCaberRound && cvarDynamicCabers != null)
     {
         SetConVarBool(cvarDynamicCabers, false);
     }
-    else if (isCaberRound == false && cvarDynamicCabers != null)
+    else if (!isCaberRound && cvarDynamicCabers != null)
     {
         SetConVarBool(cvarDynamicCabers, true);
     }
     else
     {
-        PrintToServer("ff2_dynamic_cabers not Found");
+        PrintToServer("ff2_dynamic_cabers not Found, skipping");
     }
 
 }
