@@ -9,6 +9,6 @@ Some Plugins i made
    
       > Damage done to Enemies uses Damagescaling (FF2BossHealth\*FF2BossLives/PlayersOnRED), although can be changed to use Attributes if specific lines are Commented/Uncommented
 
-***- disguiseEFfects.sp - Adds (Not Yet) Effects for different Disguises.***
+***- disguiseEFfects.sp - Adds Effects for different Disguises.***
 
-      > Unfinished, Currently only Detects Disguises
+      > Detects Disguises and gives Effects based on The Disguise.
