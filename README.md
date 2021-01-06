@@ -8,3 +8,7 @@ Some Plugins i made
       > "!kamikaze true" Revives the RED team, changes them to Demoman and gives them a Caber which kills the User on Hit.
    
       > Damage done to Enemies uses Damagescaling (FF2BossHealth\*FF2BossLives/PlayersOnRED), although can be changed to use Attributes if specific lines are Commented/Uncommented
+
+***- disguiseEFfects.sp - Adds (Not Yet) Effects for different Disguises.***
+
+      > Unfinished, Currently only Detects Disguises
