@@ -12,3 +12,7 @@ Some Plugins i made
 ***- disguiseEFfects.sp - Adds Effects for different Disguises.***
 
       > Detects Disguises and gives Effects based on The Disguise.
+      
+***- mmHealthRefill.sp  - Adds Smooth Health Refill to Freak Fortress 2***
+      
+      > If damage is originally supposed to kill you (The Boss), this plugin sets your HP to 1 and Smoothly Regenerates it back to full health. Basically a second life!
