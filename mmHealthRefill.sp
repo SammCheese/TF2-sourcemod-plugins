@@ -1,11 +1,11 @@
 /*
     "arg1"      "Int for lives" // 1 = 0 revives, 2 = 1 revive, etc.
+    "arg2"      "0"             // 0 = No Attacking but Moving, 1 = Complete Freeze including Attacking, 2 and above = No Impairment
 */
 #include <sourcemod>
 #include <sdkhooks>
 #include <sdktools>
 #include <tf2>
-#include <tf2items>
 #include <tf2_stocks>
 #include <tf2attributes>
 #include <freak_fortress_2>
@@ -23,6 +23,7 @@ bool
     
 int 
         iVLives,
+        iVFreeze,
         healTriggers  = 0;
 
 public Plugin myinfo =
@@ -30,7 +31,7 @@ public Plugin myinfo =
     name        = "Freak Fortress 2: Lifeloss Refill",
     author      = "Samm-Cheese#9500",
     description = "Allows Bosses to Regenerate their Health on LL",
-    version     = "1.0.0"
+    version     = "1.0.1"
 }
 
 public void OnPluginStart()
@@ -45,7 +46,8 @@ public void OnPluginStart()
             int BossID = FF2_GetBossIndex(client);
             if (BossID>=0 && FF2_HasAbility(BossID, this_plugin_name, "lifeloss_regen"))
             {
-                iVLives = FF2_GetArgI(BossID, this_plugin_name, "lifeloss_regen", "arg1", 1, 2);
+                iVLives  = FF2_GetArgI(BossID, this_plugin_name, "lifeloss_regen", "arg1", 1, 2);
+                iVFreeze = FF2_GetArgI(BossID, this_plugin_name, "lifeloss_regen", "arg2", 2, 0);
                 PlayerDamageHooked[client] = true;
                 SDKHook(client, SDKHook_OnTakeDamageAlive, OnTakeDamageAlive);
             }
@@ -63,7 +65,8 @@ public Action OnRoundStart(Handle event, const char[] name, bool dontBroadcast)
             int BossID = FF2_GetBossIndex(client);
             if(BossID>=0 && FF2_HasAbility(BossID, this_plugin_name, "lifeloss_regen"))
             {
-                iVLives = FF2_GetArgI(BossID, this_plugin_name, "lifeloss_regen", "arg1", 1, 2);
+                iVLives  = FF2_GetArgI(BossID, this_plugin_name, "lifeloss_regen", "arg1", 1, 2);
+                iVFreeze = FF2_GetArgI(BossID, this_plugin_name, "lifeloss_regen", "arg2", 2, 0);
                 PlayerDamageHooked[client] = true;
                 SDKHook(client, SDKHook_OnTakeDamageAlive, OnTakeDamageAlive);
             }
@@ -116,7 +119,14 @@ public Action OnTakeDamageAlive(int client, int &attacker, int &inflictor, float
         FF2_SetBossHealth(idBoss, 1);
         TF2_AddCondition(client, TFCond_UberchargedHidden,  TFCondDuration_Infinite);
         TF2_AddCondition(client, TFCond_MegaHeal,  TFCondDuration_Infinite);
-        TF2_AddCondition(client, TFCond_FreezeInput, TFCondDuration_Infinite);
+        if (iVFreeze == 0)
+        {
+            TF2Attrib_AddCustomPlayerAttribute(client, "no_attack", 1.0, -1.0);
+        }
+        else if (iVFreeze == 1)
+        {
+            TF2_AddCondition(client, TFCond_FreezeInput, TFCondDuration_Infinite);
+        }
         CreateTimer(1.5, regenHealth, GetClientSerial(client));
         return Plugin_Changed;
     }
@@ -148,7 +158,15 @@ public void OnGameFrame()
                 {
                     TF2_RemoveCondition(client, TFCond_UberchargedHidden);
                     TF2_RemoveCondition(client, TFCond_MegaHeal);
-                    TF2_RemoveCondition(client, TFCond_FreezeInput);
+                    if (iVFreeze == 0)
+                    {
+                        TF2Attrib_RemoveCustomPlayerAttribute(client, "no_attack");
+                    }
+                    else if (iVFreeze == 1)
+                    {
+                        TF2_RemoveCondition(client, TFCond_FreezeInput);
+                    }
+                    TF2Attrib_RemoveCustomPlayerAttribute(client, "no_attack");
                     isHealing     = false;
                     healTriggered = false;
                 }
