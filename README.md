@@ -16,3 +16,5 @@ Some Plugins i made
 ***- mmHealthRefill.sp  - Adds Smooth Health Refill to Freak Fortress 2***
       
       > If damage is originally supposed to kill you (The Boss), this plugin sets your HP to 1 and Smoothly Regenerates it back to full health. Basically a second life!
+      > arg1 Equals to the Number of Lives. 1 being 0 Refills, 2 being 1 Refill, etc.
+      > arg2 Equals to the Level of Impairment. 0 = No Attacking during Refill, 1 = Complete Movement a. Attacking Freeze, 3 = No Impairment
